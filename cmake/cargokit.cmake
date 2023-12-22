@@ -14,7 +14,7 @@ endif()
 # - lib_name: cargo package name
 # - any_symbol_name: name of any exported symbol from the library.
 #                    used on windows to force linking with library.
-function(apply_cargokit target manifest_dir lib_name any_symbol_name)
+function(apply_cargokit target manifest_dir lib_name any_symbol_name lib_target)
 
     set(CARGOKIT_LIB_NAME "${lib_name}")
     set(CARGOKIT_LIB_FULL_NAME "${CMAKE_SHARED_MODULE_PREFIX}${CARGOKIT_LIB_NAME}${CMAKE_SHARED_MODULE_SUFFIX}")
@@ -81,7 +81,7 @@ function(apply_cargokit target manifest_dir lib_name any_symbol_name)
         # If we have actual cmake target provided create target and make existing
         # target depend on it
         add_custom_target("${target}_cargokit" DEPENDS ${OUTPUT_LIB})
-        add_dependencies("${target}" "${target}_cargokit")
+        add_dependencies("${target}" "${lib_target}_cargokit")
         target_link_libraries("${target}" PRIVATE "${OUTPUT_LIB}${IMPORT_LIB_EXTENSION}")
         if(WIN32)
             target_link_options(${target} PRIVATE "/INCLUDE:${any_symbol_name}")
