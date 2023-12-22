@@ -80,7 +80,7 @@ function(apply_cargokit target manifest_dir lib_name any_symbol_name lib_target)
     if (TARGET ${target})
         # If we have actual cmake target provided create target and make existing
         # target depend on it
-        add_custom_target("${target}_cargokit" DEPENDS ${OUTPUT_LIB})
+        add_custom_target("${lib_target}_cargokit" DEPENDS ${OUTPUT_LIB})
         add_dependencies("${target}" "${lib_target}_cargokit")
         target_link_libraries("${target}" PRIVATE "${OUTPUT_LIB}${IMPORT_LIB_EXTENSION}")
         if(WIN32)
